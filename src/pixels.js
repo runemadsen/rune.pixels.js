@@ -1,16 +1,16 @@
-import Rune from "rune.js"
-import JPG from "jpeg-js"
+var Rune = require("rune.js");
+var JPG = require("jpeg-js");
 
-class Pixels {
+var Pixels = function(url) {
+  this.url = url;
+}
 
-  constructor(url) {
-    this.url = url;
-  }
+Pixels.prototype = {
 
   // Load functions
   // -----------------------------------------------------
 
-  load(callback) {
+  load: function(callback) {
     var that = this;
     var isNode = typeof window === 'undefined';
     var loadFn = isNode ? this.loadFromFile : this.loadFromUrl;
@@ -24,9 +24,9 @@ class Pixels {
       that.height = jpg.height;
       return callback(null);
     });
-  }
+  },
 
-  loadFromFile(path, callback) {
+  loadFromFile: function(path, callback) {
     var fs = require('fs');
     fs.readFile(path, function(err, buffer) {
       if (err) {
@@ -34,9 +34,9 @@ class Pixels {
       }
       callback(null, this.toArrayBuffer(buffer));
     });
-  }
+  },
 
-  loadFromUrl(url, callback) {
+  loadFromUrl: function(url, callback) {
     var request = new XMLHttpRequest();
     request.open('get', url, true);
     request.responseType = 'arraybuffer';
@@ -47,21 +47,21 @@ class Pixels {
       return callback(null, request.response);
     };
     request.send();
-  }
+  },
 
-  toArrayBuffer(buffer) {
+  toArrayBuffer: function(buffer) {
     var arrayBuffer = new ArrayBuffer(buffer.length);
     var data = new Uint8Array(arrayBuffer);
     for (var i = 0; i < buffer.length; i += 1) {
       data[i] = buffer[i];
     }
     return arrayBuffer;
-  }
+  },
 
   // Get
   // -----------------------------------------------------
 
-  get(x, y) {
+  get: function(x, y) {
     if(!this.pixels) throw Error("You must load image before accessing pixel data");
     var index = (y * this.width + x) * 4;
     return new Rune.Color(this.pixels[index], this.pixels[index+1], this.pixels[index+2]);
@@ -69,4 +69,4 @@ class Pixels {
 
 }
 
-export default Pixels;
+module.exports = Pixels;
