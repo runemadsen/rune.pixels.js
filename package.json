@@ -1,6 +1,6 @@
 {
   "name": "rune.pixels.js",
-  "version" : "0.0.2",
+  "version" : "0.0.3",
   "description": "A plugin to allow access to pixel color values in Rune.js",
   "repository": {
     "type": "git",
@@ -17,6 +17,9 @@
     "rune.js" : "^0.2.3",
     "jpeg-js" : "0.1.1"
   },
+  "keywords" : [
+    "rune.js"
+  ],
   "devDependencies": {
     "gulp": "^3.9.0",
     "browserify": "^11.0.0",
